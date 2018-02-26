@@ -6,9 +6,9 @@ using namespace std;
 int N,M,MM;           
 /*
 0
-1  ±íÊ¾Êú×ÅÆÌ   1 1±íÊ¾ºá×ÅÆÌ
+1  è¡¨ç¤ºç«–ç€é“º   1 1è¡¨ç¤ºæ¨ªç€é“º
 */ 
-bool firstline(int k)   //¼ì²âµÚÒ»ĞĞ¼æÈİĞÔ 
+bool firstline(int k)   //æ£€æµ‹ç¬¬ä¸€è¡Œå…¼å®¹æ€§ 
 {
 	int i=0;
 	while(i<M)
@@ -22,11 +22,11 @@ bool firstline(int k)   //¼ì²âµÚÒ»ĞĞ¼æÈİĞÔ
 	}
 	return true;
 }
-/*   ¼æÈİĞÔ¼ì²â 
-ºáÆÌ 
+/*   å…¼å®¹æ€§æ£€æµ‹ 
+æ¨ªé“º 
 1 1     0
-1 1		1   ÇÒ²»ÊÇ×îºóÒ»¸ö
-ÊúÆÌ 
+1 1	1   ä¸”ä¸æ˜¯æœ€åä¸€ä¸ª
+ç«–é“º 
 1 
 0
 */
@@ -35,16 +35,16 @@ bool line(int k,int j)
 	int i=0;
 	while(i<M)
 	{
-		if(j&(1<<i))                       //(i,x)Îª1 
+		if(j&(1<<i))                       //(i,x)ä¸º1 
 		{
-			if(k&(1<<i))                   //(i-1,x)Ò²Îª1 
+			if(k&(1<<i))                   //(i-1,x)ä¹Ÿä¸º1 
 			{
-				if(k&(1<<(i+1))&&(j&(1<<(i+1)))&&i!=M-1) i+=2;  //ÔòÉÏÏÂ¶¼ÊÇºá×ÅÓÒÍ» 
+				if(k&(1<<(i+1))&&(j&(1<<(i+1)))&&i!=M-1) i+=2;  //åˆ™ä¸Šä¸‹éƒ½æ˜¯æ¨ªç€å³çª 
 				else return false;
 			} 
-			else i++;   //Êú×ÅÆÌµÄÏÂÍ· 
+			else i++;   //ç«–ç€é“ºçš„ä¸‹å¤´ 
 		}
-		else    //Êú×ÅÆÌµÄÉÏÍ·Ôò(i-1,x)±ØÎª1 
+		else    //ç«–ç€é“ºçš„ä¸Šå¤´åˆ™(i-1,x)å¿…ä¸º1 
 		{
 			if(k&(1<<i)) i++;
 			else return false;
@@ -55,23 +55,23 @@ bool line(int k,int j)
 int main()
 {
 	cin>>N>>M;
-	MM=1<<M;        //¶ÔÓ¦×î´ó 2^M-1ÖÖ×´Ì¬ 
-	long long dp[10][MM+5];    //10*10¾ÍĞèÒªlong long 
+	MM=1<<M;        //å¯¹åº”æœ€å¤§ 2^M-1ç§çŠ¶æ€ 
+	long long dp[10][MM+5];    //10*10å°±éœ€è¦long long 
 	memset(dp,0,sizeof(dp));
 	for(int j=0;j<=MM;j++)
 	{
 		if(firstline(j)) dp[0][j]=1;
 	}
-	for(int i=1;i<N;i++)   //µÚNĞĞ 
+	for(int i=1;i<N;i++)   //ç¬¬Nè¡Œ 
 	{
-		for(int j=0;j<MM;j++)   //j×´Ì¬ 
+		for(int j=0;j<MM;j++)   //jçŠ¶æ€ 
 		{
-			for(int k=0;k<MM;k++) //ÓëÉÏÒ»ĞĞk×´Ì¬¼ì²â¼æÈİĞÔ 
+			for(int k=0;k<MM;k++) //ä¸ä¸Šä¸€è¡ŒkçŠ¶æ€æ£€æµ‹å…¼å®¹æ€§ 
 			{
 				if(line(k,j)) dp[i][j]+=dp[i-1][k];
 			}
 		}
 	}
-	cout<<dp[N-1][MM-1]<<endl;    //×îºóÒ»ĞĞ±ØÈ«Îª1 
+	cout<<dp[N-1][MM-1]<<endl;    //æœ€åä¸€è¡Œå¿…å…¨ä¸º1 
 	return 0;
 }
